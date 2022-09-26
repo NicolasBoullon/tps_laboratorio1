@@ -15,9 +15,9 @@ int MenuPrincipal(float cHospedaje,float cComida,float  cTransporte,int arqueros
 	int n;
     printf("  Menu principal  \n"
     		"1.Ingreso de los costos de mantenimiento\n"
-            " -Costo de Hospedaje -> $%f\n"
-            " -Costo de Comida -> $%f\n"
-            " -Costo de Transporte -> $%f\n"
+            " -Costo de Hospedaje -> $%.4f\n"
+            " -Costo de Comida -> $%.4f\n"
+            " -Costo de Transporte -> $%.4f\n"
             "2.Carga de jugadores\n"
             " -Arqueros -> %d\n"
             " -Defensores -> %d\n"
@@ -25,7 +25,8 @@ int MenuPrincipal(float cHospedaje,float cComida,float  cTransporte,int arqueros
             " -Delanteros -> %d\n"
             "3.Realizar todos los calculos\n"
             "4.Informar todos los resultados\n"
-            "5.Salir\n",cHospedaje,cComida,cTransporte,arqueros,defensores,mediocampistas,delanteros);
+            "5.Salir\n"
+    		"Ingrese una opcion: ",cHospedaje,cComida,cTransporte,arqueros,defensores,mediocampistas,delanteros);
     scanf("%d",&n);
 
     while(n!=1 && n!=2 && n!=3 && n!=4 && n!=5)
@@ -43,10 +44,11 @@ char SubMenuMantenimiento(float cHospedaje,float cComida,float cTransporte)
 	system("cls");
     printf("  Menu mantenimiento  \n"
     		"Costos de mantenimiento:\n"
-            " a)Costo de Hospedaje -> $%.2f\n"
-            " b)Costo de Comida -> $%.2f\n"
-            " c)Costo de Transporte -> $%.2f\n"
-    		" d)Volver\n",cHospedaje,cComida,cTransporte);
+            " a)Costo de Hospedaje -> $%.4f\n"
+            " b)Costo de Comida -> $%.4f\n"
+            " c)Costo de Transporte -> $%.4f\n"
+    		" d)Volver\n"
+    		"Ingrese una opcion: ",cHospedaje,cComida,cTransporte);
 	fflush(stdin);
 	scanf("%c",&n);
     while(n !='a' && n!='b' && n!='c' && n!='d')
@@ -68,7 +70,8 @@ char SubMenuCargaJugadores(int arqueros,int defensores,int mediocampistas,int de
             " b)Defensores -> %d\n"
             " c)Mediocampistas -> %d\n"
     		" d)Delanteros -> %d\n"
-    		" e)Volver\n",arqueros,defensores,mediocampistas,delanteros);
+    		" e)Volver\n"
+    		"Ingrese una opcion: ",arqueros,defensores,mediocampistas,delanteros);
 	fflush(stdin);
     scanf("%c",&ne);
     while(ne !='a' && ne!='b' && ne!='c' && ne!='d' && ne!='e')
@@ -91,7 +94,8 @@ char SubMenuConfederacion()
 			" c)CONCACAF en zona del Norte\n"
 			" d)CONMEBOL en Sudamerica\n"
  			" e)OFC en Oceania\n"
- 			" f)UEFA en Europa\n");
+ 			" f)UEFA en Europa\n"
+ 			"Ingrese una opcion: ");
 	fflush(stdin);
 	scanf("%c",&opcion);
 
@@ -107,19 +111,19 @@ char SubMenuConfederacion()
 
 void mostrarResultadosFinales(float promedioAsia,float promedioAfrica, float promedioNorte, float promedioSudamerica, float promedioOceania,float promedioEuropa,float sMantenimiento,int okAumento,float aumento,float precioFinal)
 {
-    printf("\nPromedio AFC: %.2f\n"
-    	"Promedio CAF: %.2f\n"
-    	"Promedio CONCACAF: %.2f\n"
-    	"Promedio CONMEBOL: %.2f\n"
-    	"Promedio OFC: %.2f\n"
-    	"Promedio UEFA: %.2f\n\n",promedioAsia,promedioAfrica,promedioNorte,promedioSudamerica,promedioOceania,promedioEuropa);
+    printf("\nPromedio AFC: %.4f\n"
+    	"Promedio CAF: %.4f\n"
+    	"Promedio CONCACAF: %.4f\n"
+    	"Promedio CONMEBOL: %.4f\n"
+    	"Promedio OFC: %.4f\n"
+    	"Promedio UEFA: %.4f\n\n",promedioAsia,promedioAfrica,promedioNorte,promedioSudamerica,promedioOceania,promedioEuropa);
 
 
-    printf("La suma de los costos de mantenimientos es de: $%.2f\n",sMantenimiento);
+    printf("La suma de los costos de mantenimientos es de: $%.4f\n",sMantenimiento);
     if(okAumento==1)
     {
-        printf("El aumento de los costos de mantenimiento fue de %.2f\n",aumento);
-        printf("El precio final de los costos de mantenimiento es %.2f\n\n",precioFinal);
+        printf("El aumento de los costos de mantenimiento fue de: $%.4f\n",aumento);
+        printf("El precio final de los costos de mantenimiento es: $%.4f\n\n",precioFinal);
     }
 }
 
@@ -222,7 +226,8 @@ int sumarCostosMantenimiento(float costoHospedaje,float costoComida,float costoT
 
 int calcularPromedioMercados(float* pPromAsia,int contadorAsia,float* pPromAfrica,int contadorAfrica,float* pPromNorte,int contadorNorte,float* pPromSud,int contadorSudamerica,float* pPromOceania,int contadorOceania,float* pPromEuropa,int contadorEuropa,int contadorJugadores)
 {
-	int todoPiola=0;
+	int todoOk=0;
+
 	if(pPromAsia!=NULL && pPromAfrica!=NULL && pPromNorte!=NULL && pPromSud!=NULL && pPromOceania!=NULL && pPromEuropa!=NULL)
 	{
 
@@ -233,9 +238,9 @@ int calcularPromedioMercados(float* pPromAsia,int contadorAsia,float* pPromAfric
 	*pPromSud= (float)contadorSudamerica/contadorJugadores;
 	*pPromOceania= (float)contadorOceania/contadorJugadores;
 	*pPromEuropa= (float)contadorEuropa/contadorJugadores;
-	todoPiola=1;
+	todoOk=1;
 	}
-	return todoPiola;
+	return todoOk;
 }
 
 
