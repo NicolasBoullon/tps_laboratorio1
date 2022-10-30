@@ -286,7 +286,6 @@ char confirmaSalir()
 int getString(char string[],char mensaje[],char mensajeError[])
 {
 	int todoOk=0;
-//	int auxString;
 	char bufferString[80];
 	int max=20;
 	if(string!=NULL)
@@ -297,15 +296,15 @@ int getString(char string[],char mensaje[],char mensajeError[])
 			fgets(bufferString,sizeof(bufferString),stdin);
 			bufferString[strlen(bufferString)-1]='\0';
 
-//			strlwr(bufferString);
 
 			todoOk= soloCaracter(bufferString);
 			if(todoOk==1)
 			{
 				printf("%s",mensajeError);
 			}
-			else if(max<strlen(bufferString))
+			else if(max<strlen(bufferString) || strlen(bufferString)==0)
 			{
+				printf("%s",mensajeError);
 				todoOk=1;
 			}
 			else
@@ -315,13 +314,7 @@ int getString(char string[],char mensaje[],char mensajeError[])
 
 
 		}while(todoOk==1);
-
-
-
 	}
-
-
-
 	return todoOk;
 }
 
@@ -330,11 +323,13 @@ int soloCaracter(char string[])
 {
 	 int todoOk;
 	 int tam;
+
 	 tam= strlen(string);
 
 	 for(int i=0;i<tam;i++)
 	 {
-		 if((string[i]>='a'&& string[i]<='z') ||(string[i]>='A' && string[i]<='Z') || string[i]==' ')
+
+		 if((string[i]>='a'&& string[i]<='z') || (string[i]>='A' && string[i]<='Z') || string[i]==' ')
 		 {
 			 todoOk=0;
 		 }
