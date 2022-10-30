@@ -325,6 +325,5 @@ void PedirNumero_Int(char mensaje[],char mensajeError[], int* num1, int maximo, 
 		}
 	*num1=num;
 	}
-
 }
 
