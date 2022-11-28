@@ -69,7 +69,7 @@ int main()
 				}
 				else
 				{
-				controller_removerJugador(listaJugadores);
+				controller_removerJugador(listaJugadores,listaSelecciones);
 				}
 				break;
 

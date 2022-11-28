@@ -164,14 +164,15 @@ int controller_editarJugador(LinkedList* pArrayListJugador)
  * \return int
  *
  */
-int controller_removerJugador(LinkedList* pArrayListJugador)
+int controller_removerJugador(LinkedList* pArrayListJugador, LinkedList* pArrayListSeleccion)
 {
 	int todoOk=0;
 	int opcion;
 	int indice;
 	int respuesta;
 //	int indiceJugador;
-
+	int idSeleccion;
+	char opcionConfirma;
 	Jugador* JugAux;
 
 	if(pArrayListJugador!=NULL)
@@ -199,9 +200,26 @@ int controller_removerJugador(LinkedList* pArrayListJugador)
 			respuesta=confirmaSiNo("Confirma jugador para dar de baja? ", "ERROR. Reingrese respuesta!\n");
 			if(respuesta)
 			{
-				ll_remove(pArrayListJugador, indice);
-				jug_delete(JugAux);
-				printf("Jugador dado de baja!\n");
+				jug_getSIdSeleccion(JugAux, &idSeleccion);
+				if(idSeleccion==0)
+				{
+					ll_remove(pArrayListJugador, indice);
+					jug_delete(JugAux);
+					printf("Jugador dado de baja!\n");
+
+					}
+					else if(idSeleccion!=0)
+					{
+						printf("El jugador seleccionado para eliminar esta convocado a una seleccion.\n Para poder dar de baja un jugador, primero hay que quitarlo de la seleccion.\n");
+						opcionConfirma=confirmaSiNo("Quiere dar de baja la convocacion a la seleccion? ", "ERROR. ");
+						if(opcionConfirma=='s')
+						{
+							controller_quitarJugador(pArrayListJugador, pArrayListSeleccion);
+							ll_remove(pArrayListJugador, indice);
+							jug_delete(JugAux);
+							printf("Jugador dado de baja!\n");
+					}
+				}
 			}
 			else
 			{
@@ -241,6 +259,7 @@ int controller_listarJugadores(LinkedList* pArrayListJugador)
 			mostrarJugador(JugAux);
 			todoOk=1;
 		}
+		printf("|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|\n");
 	}
 
 	return todoOk;
@@ -268,18 +287,22 @@ int controller_ordenarJugadores(LinkedList* pArrayListJugador, LinkedList* pArra
 		fflush(stdin);
 			case 1:
 				ll_sort(pArrayListJugador, ordenarJugadoresPorNacionalidad, opcionOrdenar);
+				controller_listarJugadores(pArrayListJugador);
 				break;
 
 			case 2:
 				ll_sort(pArrayListSeleccion,ordenarJugadoresPorConfederacion, opcionOrdenar);
+				controller_listarSelecciones(pArrayListSeleccion);
 				break;
 
 			case 3:
 				ll_sort(pArrayListJugador, ordenarJugadoresPorEdad, opcionOrdenar);
+				controller_listarJugadores(pArrayListJugador);
 				break;
 
 			case 4:
 				ll_sort(pArrayListJugador, ordenarJugadoresPorNombre, opcionOrdenar);
+				controller_listarJugadores(pArrayListJugador);
 				break;
 
 			case 5:
@@ -411,14 +434,12 @@ int controller_editarSeleccion(LinkedList* pArrayListSeleccion,int id,int opcion
 			selec_getConvocados(SelAux, &cantConvocados);
 //			if(indiceAux==id)
 //			{
-			printf("%d\n",cantConvocados);
+//			printf("%d\n",cantConvocados);
 				switch(opcion)
 				{
 				case 1:
 					cantConvocados++;
 					selec_setConvocados(SelAux, cantConvocados);
-					printf("CASE 1\n");
-					printf("%d\n",cantConvocados);
 //					selec_se
 					break;
 
@@ -665,9 +686,9 @@ int controller_listarJugadoresConvocados(LinkedList* pArrayListJugador)
 	{
 		printf("                          |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|\n");
 		printf("                          |               MENU JUGADORES CONVOCADOS                 |\n");
-		printf("|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|\n");
-		printf("|  ID  |        NOMBRE           |    EDAD    |         POSICION         |      NACIONALIDAD     |      SELECCION     |\n");
-		printf("|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|\n");
+		printf("|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|\n");
+		printf("|  ID  |           NOMBRE             |  EDAD  |         POSICION          |        NACIONALIDAD       |         SELECCION         |\n");
+		printf("|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|\n");
 		tam=ll_len(pArrayListJugador);
 		for(int i=0;i<tam;i++)
 		{
